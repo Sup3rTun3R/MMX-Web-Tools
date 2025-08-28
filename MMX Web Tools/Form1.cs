@@ -29,10 +29,14 @@ namespace MMX_Web_Tools
         private bool _searchFilterMode = true; // true=filter results, false=navigate
         private bool _detailedLog = false;
 
+        // variants binding for details panel
+        private BindingList<Variant> _variantBinding = null;
+
         public Form1()
         {
             InitializeComponent();
             InitGrid();
+            InitVariantGrid();
             toolStripTextBoxSearch.KeyDown += toolStripTextBoxSearch_KeyDown;
             panelBulk.Visible = false;
             panelDetails.Visible = true;
@@ -68,6 +72,45 @@ namespace MMX_Web_Tools
             });
 
             dataGridViewProducts.DataSource = _products;
+
+            // Row color coding: main items vs attached to another (variants exist?)
+            dataGridViewProducts.RowPrePaint += (s, e) =>
+            {
+                if (e.RowIndex < 0 || e.RowIndex >= dataGridViewProducts.Rows.Count) return;
+                var row = dataGridViewProducts.Rows[e.RowIndex];
+                var product = row.DataBoundItem as Product;
+                if (product == null) return;
+                // If product has variants -> treat as main (color A). If attached/child concept existed we would color differently.
+                // Using: has variants => highlight; no variants => default.
+                if (product.Variants != null && product.Variants.Count > 0)
+                {
+                    row.DefaultCellStyle.BackColor = Color.FromArgb(255, 250, 235); // light orange tint
+                }
+                else
+                {
+                    row.DefaultCellStyle.BackColor = Color.White;
+                }
+            };
+        }
+
+        private void InitVariantGrid()
+        {
+            if (dataGridViewVariants == null) return;
+            dataGridViewVariants.AutoGenerateColumns = false;
+            dataGridViewVariants.Columns.Clear();
+            dataGridViewVariants.RowHeadersVisible = false;
+            dataGridViewVariants.AllowUserToAddRows = false; // we use explicit Add button
+            dataGridViewVariants.AllowUserToResizeRows = false;
+
+            var colVarId = new DataGridViewTextBoxColumn { DataPropertyName = nameof(Variant.VariantId), HeaderText = "Variant ID", FillWeight = 60, MinimumWidth = 70 };
+            var colVarName = new DataGridViewTextBoxColumn { DataPropertyName = nameof(Variant.Name), HeaderText = "Name", FillWeight = 150, MinimumWidth = 120 };
+            var colGroup = new DataGridViewTextBoxColumn { DataPropertyName = nameof(Variant.Group), HeaderText = "Group", FillWeight = 100, MinimumWidth = 100 };
+            var colPrice = new DataGridViewTextBoxColumn { DataPropertyName = nameof(Variant.Price), HeaderText = "Price", FillWeight = 70, MinimumWidth = 80, DefaultCellStyle = new DataGridViewCellStyle { Format = "N2" } };
+
+            dataGridViewVariants.Columns.AddRange(new DataGridViewColumn[]
+            {
+                colVarId, colVarName, colGroup, colPrice
+            });
         }
 
         private void Log(string message)
@@ -441,6 +484,16 @@ namespace MMX_Web_Tools
             dataGridViewProducts.ColumnHeadersDefaultCellStyle.ForeColor = fore;
             dataGridViewProducts.EnableHeadersVisualStyles = false;
 
+            if (dataGridViewVariants != null)
+            {
+                dataGridViewVariants.BackgroundColor = gridBack;
+                dataGridViewVariants.DefaultCellStyle.BackColor = gridBack;
+                dataGridViewVariants.DefaultCellStyle.ForeColor = gridFore;
+                dataGridViewVariants.ColumnHeadersDefaultCellStyle.BackColor = back;
+                dataGridViewVariants.ColumnHeadersDefaultCellStyle.ForeColor = fore;
+                dataGridViewVariants.EnableHeadersVisualStyles = false;
+            }
+
             rightTable.BackColor = back; rightTable.ForeColor = fore;
             panelRightBottom.BackColor = back; panelRightBottom.ForeColor = fore;
             panelDetails.BackColor = back; panelDetails.ForeColor = fore;
@@ -448,7 +501,7 @@ namespace MMX_Web_Tools
             richTextBoxLog.BackColor = gridBack; richTextBoxLog.ForeColor = gridFore;
 
             foreach (Control c in panelDetails.Controls)
-                if (!(c is Button)) { c.BackColor = back; c.ForeColor = fore; }
+                if (!(c is Button) && !(c is DataGridView)) { c.BackColor = back; c.ForeColor = fore; }
             foreach (Control c in panelBulk.Controls)
                 if (!(c is Button)) { c.BackColor = back; c.ForeColor = fore; }
 
@@ -459,6 +512,8 @@ namespace MMX_Web_Tools
             var buttonFore = dark ? (matrix ? Color.FromArgb(0,255,0) : Color.Gainsboro) : SystemColors.ControlText;
             toolStripButtonEdit.BackColor = buttonBack; toolStripButtonEdit.ForeColor = buttonFore;
             btnEditDetails.BackColor = buttonBack; btnEditDetails.ForeColor = buttonFore;
+            if (btnAddVariant != null) { btnAddVariant.BackColor = buttonBack; btnAddVariant.ForeColor = buttonFore; }
+            if (btnRemoveVariant != null) { btnRemoveVariant.BackColor = buttonBack; btnRemoveVariant.ForeColor = buttonFore; }
             toolStripProgressBar.BackColor = buttonBack; toolStripProgressBar.ForeColor = buttonFore;
         }
 
@@ -491,6 +546,7 @@ namespace MMX_Web_Tools
                 {
                     Log($"Edited {product.Sku}: Retail {dlg.OriginalRetail} -> {product.Retail}, Sale {dlg.OriginalSale} -> {product.Sale}");
                     dataGridViewProducts.Refresh();
+                    UpdateDetails(product);
                 }
             }
         }
@@ -506,6 +562,7 @@ namespace MMX_Web_Tools
                 {
                     Log($"Edited {product.Sku}: Retail {dlg.OriginalRetail} -> {product.Retail}, Sale {dlg.OriginalSale} -> {product.Sale}");
                     dataGridViewProducts.Refresh();
+                    UpdateDetails(product);
                 }
             }
         }
@@ -576,16 +633,53 @@ namespace MMX_Web_Tools
 
         private void UpdateDetails(Product p)
         {
+            if (dataGridViewVariants != null) { dataGridViewVariants.DataSource = null; }
+
             if (p == null)
             {
                 txtDetName.Text = txtDetSku.Text = txtDetCode.Text = txtDetRetail.Text = txtDetSale.Text = txtDetStock.Text = string.Empty;
-                listVariants.Items.Clear(); return;
+                _variantBinding = null;
+                if (btnAddVariant != null) btnAddVariant.Enabled = false;
+                if (btnRemoveVariant != null) btnRemoveVariant.Enabled = false;
+                if (btnEditOptions != null) btnEditOptions.Enabled = false;
+                return;
             }
             txtDetName.Text = p.Name; txtDetSku.Text = p.Sku; txtDetCode.Text = p.Code;
             txtDetRetail.Text = p.Retail.ToString(CultureInfo.InvariantCulture);
             txtDetSale.Text = p.Sale.ToString(CultureInfo.InvariantCulture);
             txtDetStock.Text = p.Stock.ToString(CultureInfo.InvariantCulture);
-            listVariants.Items.Clear(); foreach (var v in p.Variants) listVariants.Items.Add($"[{v.VariantId}] {v.Name} ({v.Group}) - {v.Price:C}");
+
+            _variantBinding = new BindingList<Variant>(p.Variants ?? new List<Variant>());
+            if (dataGridViewVariants != null)
+            {
+                dataGridViewVariants.AutoGenerateColumns = true;
+                dataGridViewVariants.DataSource = _variantBinding;
+                if (dataGridViewVariants.Columns.Count > 0)
+                {
+                    if (dataGridViewVariants.Columns.Contains("VariantId")) dataGridViewVariants.Columns["VariantId"].HeaderText = "Variant ID";
+                    if (dataGridViewVariants.Columns.Contains("Name")) dataGridViewVariants.Columns["Name"].HeaderText = "Name";
+                    if (dataGridViewVariants.Columns.Contains("Group")) dataGridViewVariants.Columns["Group"].HeaderText = "Group";
+                    if (dataGridViewVariants.Columns.Contains("Price")) { dataGridViewVariants.Columns["Price"].HeaderText = "Price"; dataGridViewVariants.Columns["Price"].DefaultCellStyle.Format = "N2"; }
+                }
+            }
+            if (btnAddVariant != null) btnAddVariant.Enabled = true;
+            if (btnRemoveVariant != null) btnRemoveVariant.Enabled = _variantBinding.Count > 0;
+            if (btnEditOptions != null) btnEditOptions.Enabled = _variantBinding.Count > 0;
+        }
+
+        private void btnEditOptions_Click(object sender, EventArgs e)
+        {
+            var product = GetSelectedProduct();
+            if (product == null || _variantBinding == null) return;
+            using (var dlg = new VariantEditForm(_variantBinding))
+            {
+                dlg.Text = $"Edit Options - {product.Sku}";
+                if (dlg.ShowDialog(this) == DialogResult.OK)
+                {
+                    dataGridViewVariants.Refresh();
+                    Log($"Edited options for {product.Sku}");
+                }
+            }
         }
 
         // Background worker
@@ -620,5 +714,60 @@ namespace MMX_Web_Tools
         private static decimal ReadDecimal(string[] lines, ref int i) { if (i >= lines.Length) return 0m; decimal.TryParse(lines[i++], NumberStyles.Any, CultureInfo.InvariantCulture, out var v); return v; }
         private static int SafeInt(string s) { if (int.TryParse((s ?? string.Empty).Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var v)) return v; return 0; }
         private static decimal SafeDecimal(string s) { if (decimal.TryParse((s ?? string.Empty).Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out var v)) return v; return 0m; }
+
+        // Variant buttons
+        private void btnAddVariant_Click(object sender, EventArgs e)
+        {
+            var product = GetSelectedProduct();
+            if (product == null) return;
+            if (_variantBinding == null)
+            {
+                _variantBinding = new BindingList<Variant>(product.Variants);
+                dataGridViewVariants.DataSource = _variantBinding;
+            }
+            var nextId = (product.Variants?.Count > 0) ? product.Variants.Max(v => v.VariantId) + 1 : 1;
+            var vnew = new Variant
+            {
+                CategoryId = product.CategoryId,
+                SubCategoryId = product.SubCategoryId,
+                VariantId = nextId,
+                Name = "New Variant",
+                Group = string.Empty,
+                Price = 0m
+            };
+            _variantBinding.Add(vnew);
+            Log($"Added variant {vnew.VariantId} to {product.Sku}");
+            if (dataGridViewVariants.Rows.Count > 0)
+            {
+                var idx = dataGridViewVariants.Rows.Count - 1;
+                dataGridViewVariants.ClearSelection();
+                dataGridViewVariants.Rows[idx].Selected = true;
+                dataGridViewVariants.CurrentCell = dataGridViewVariants.Rows[idx].Cells[1];
+                dataGridViewVariants.BeginEdit(true);
+            }
+        }
+
+        private void btnRemoveVariant_Click(object sender, EventArgs e)
+        {
+            var product = GetSelectedProduct();
+            if (product == null || _variantBinding == null) return;
+            if (dataGridViewVariants.CurrentRow == null) return;
+            var row = dataGridViewVariants.CurrentRow;
+            var variant = row.DataBoundItem as Variant;
+            if (variant == null) return;
+            var res = MessageBox.Show(this, $"Remove variant [{variant.VariantId}] {variant.Name}?", "Remove Variant", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res != DialogResult.Yes) return;
+            _variantBinding.Remove(variant);
+            Log($"Removed variant {variant.VariantId} from {product.Sku}");
+        }
+
+        private Product GetSelectedProduct()
+        {
+            if (dataGridViewProducts.SelectedRows.Count == 1)
+            {
+                return dataGridViewProducts.SelectedRows[0].DataBoundItem as Product;
+            }
+            return null;
+        }
     }
 }

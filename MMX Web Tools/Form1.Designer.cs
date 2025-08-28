@@ -51,9 +51,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridViewProducts = new System.Windows.Forms.DataGridView();
             this.rightTable = new System.Windows.Forms.TableLayoutPanel();
-            this.panelLog = new System.Windows.Forms.Panel();
-            this.chkDetailedLog = new System.Windows.Forms.CheckBox();
-            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.panelRightBottom = new System.Windows.Forms.Panel();
             this.panelBulk = new System.Windows.Forms.Panel();
             this.lblBulkTitle = new System.Windows.Forms.Label();
@@ -68,8 +65,11 @@
             this.chkBulkSale = new System.Windows.Forms.CheckBox();
             this.btnBulkApply = new System.Windows.Forms.Button();
             this.panelDetails = new System.Windows.Forms.Panel();
+            this.btnEditOptions = new System.Windows.Forms.Button();
+            this.btnAddVariant = new System.Windows.Forms.Button();
+            this.btnRemoveVariant = new System.Windows.Forms.Button();
             this.btnEditDetails = new System.Windows.Forms.Button();
-            this.listVariants = new System.Windows.Forms.ListBox();
+            this.dataGridViewVariants = new System.Windows.Forms.DataGridView();
             this.lblDetName = new System.Windows.Forms.Label();
             this.lblDetSku = new System.Windows.Forms.Label();
             this.lblDetCode = new System.Windows.Forms.Label();
@@ -82,6 +82,9 @@
             this.txtDetRetail = new System.Windows.Forms.TextBox();
             this.txtDetSale = new System.Windows.Forms.TextBox();
             this.txtDetStock = new System.Windows.Forms.TextBox();
+            this.panelLog = new System.Windows.Forms.Panel();
+            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
+            this.chkDetailedLog = new System.Windows.Forms.CheckBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -94,13 +97,13 @@
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProducts)).BeginInit();
             this.rightTable.SuspendLayout();
-            this.panelLog.SuspendLayout();
             this.panelRightBottom.SuspendLayout();
             this.panelBulk.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numBulkAmount)).BeginInit();
             this.groupBoxType.SuspendLayout();
             this.groupBoxDirection.SuspendLayout();
             this.panelDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVariants)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -385,61 +388,31 @@
             // 
             this.rightTable.ColumnCount = 1;
             this.rightTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.rightTable.Controls.Add(this.panelLog, 0, 0);
-            this.rightTable.Controls.Add(this.panelRightBottom, 0, 1);
+            this.rightTable.Controls.Add(this.panelRightBottom, 0, 0);
+            this.rightTable.Controls.Add(this.panelLog, 0, 1);
             this.rightTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rightTable.Location = new System.Drawing.Point(0, 0);
             this.rightTable.Margin = new System.Windows.Forms.Padding(0);
             this.rightTable.Name = "rightTable";
             this.rightTable.RowCount = 2;
-            this.rightTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.rightTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.rightTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 67F));
+            this.rightTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33F));
             this.rightTable.Size = new System.Drawing.Size(456, 601);
             this.rightTable.TabIndex = 0;
-            // 
-            // panelLog
-            // 
-            this.panelLog.Controls.Add(this.richTextBoxLog);
-            this.panelLog.Controls.Add(this.chkDetailedLog);
-            this.panelLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelLog.Location = new System.Drawing.Point(3, 3);
-            this.panelLog.Name = "panelLog";
-            this.panelLog.Size = new System.Drawing.Size(450, 293);
-            this.panelLog.TabIndex = 0;
-            // 
-            // chkDetailedLog
-            // 
-            this.chkDetailedLog.Dock = System.Windows.Forms.DockStyle.Top;
-            this.chkDetailedLog.Location = new System.Drawing.Point(0, 0);
-            this.chkDetailedLog.Name = "chkDetailedLog";
-            this.chkDetailedLog.Size = new System.Drawing.Size(450, 17);
-            this.chkDetailedLog.TabIndex = 1;
-            this.chkDetailedLog.Text = "Detailed Log";
-            this.chkDetailedLog.UseVisualStyleBackColor = true;
-            this.chkDetailedLog.CheckedChanged += new System.EventHandler(this.chkDetailedLog_CheckedChanged);
-            // 
-            // richTextBoxLog
-            // 
-            this.richTextBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxLog.Location = new System.Drawing.Point(0, 17);
-            this.richTextBoxLog.Name = "richTextBoxLog";
-            this.richTextBoxLog.ReadOnly = true;
-            this.richTextBoxLog.Size = new System.Drawing.Size(450, 276);
-            this.richTextBoxLog.TabIndex = 0;
-            this.richTextBoxLog.Text = "";
             // 
             // panelRightBottom
             // 
             this.panelRightBottom.Controls.Add(this.panelBulk);
             this.panelRightBottom.Controls.Add(this.panelDetails);
             this.panelRightBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelRightBottom.Location = new System.Drawing.Point(3, 302);
+            this.panelRightBottom.Location = new System.Drawing.Point(3, 3);
             this.panelRightBottom.Name = "panelRightBottom";
-            this.panelRightBottom.Size = new System.Drawing.Size(450, 294);
-            this.panelRightBottom.TabIndex = 1;
+            this.panelRightBottom.Size = new System.Drawing.Size(450, 396);
+            this.panelRightBottom.TabIndex = 0;
             // 
             // panelBulk
             // 
+            this.panelBulk.AutoScroll = true;
             this.panelBulk.Controls.Add(this.lblBulkTitle);
             this.panelBulk.Controls.Add(this.numBulkAmount);
             this.panelBulk.Controls.Add(this.groupBoxType);
@@ -450,44 +423,18 @@
             this.panelBulk.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBulk.Location = new System.Drawing.Point(0, 0);
             this.panelBulk.Name = "panelBulk";
-            this.panelBulk.Size = new System.Drawing.Size(450, 294);
+            this.panelBulk.Size = new System.Drawing.Size(450, 396);
             this.panelBulk.TabIndex = 1;
-            // 
-            // lblBulkTitle
-            // 
-            this.lblBulkTitle.AutoSize = true;
-            this.lblBulkTitle.Location = new System.Drawing.Point(16, 15);
-            this.lblBulkTitle.Name = "lblBulkTitle";
-            this.lblBulkTitle.Size = new System.Drawing.Size(134, 13);
-            this.lblBulkTitle.TabIndex = 0;
-            this.lblBulkTitle.Text = "Bulk update selected items";
-            // 
-            // numBulkAmount
-            // 
-            this.numBulkAmount.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.numBulkAmount.DecimalPlaces = 2;
-            this.numBulkAmount.Location = new System.Drawing.Point(16, 45);
-            this.numBulkAmount.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.numBulkAmount.Name = "numBulkAmount";
-            this.numBulkAmount.Size = new System.Drawing.Size(120, 20);
-            this.numBulkAmount.TabIndex = 1;
-            this.numBulkAmount.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
             // 
             // groupBoxType
             // 
+            this.groupBoxType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxType.Controls.Add(this.radioPercent);
             this.groupBoxType.Controls.Add(this.radioFixed);
             this.groupBoxType.Location = new System.Drawing.Point(16, 80);
             this.groupBoxType.Name = "groupBoxType";
-            this.groupBoxType.Size = new System.Drawing.Size(260, 55);
+            this.groupBoxType.Size = new System.Drawing.Size(418, 55);
             this.groupBoxType.TabIndex = 2;
             this.groupBoxType.TabStop = false;
             this.groupBoxType.Text = "Amount Type";
@@ -514,11 +461,13 @@
             // 
             // groupBoxDirection
             // 
+            this.groupBoxDirection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxDirection.Controls.Add(this.radioIncrease);
             this.groupBoxDirection.Controls.Add(this.radioDecrease);
             this.groupBoxDirection.Location = new System.Drawing.Point(16, 140);
             this.groupBoxDirection.Name = "groupBoxDirection";
-            this.groupBoxDirection.Size = new System.Drawing.Size(260, 55);
+            this.groupBoxDirection.Size = new System.Drawing.Size(418, 55);
             this.groupBoxDirection.TabIndex = 3;
             this.groupBoxDirection.TabStop = false;
             this.groupBoxDirection.Text = "Direction";
@@ -546,8 +495,6 @@
             // chkBulkRetail
             // 
             this.chkBulkRetail.AutoSize = true;
-            this.chkBulkRetail.Checked = true;
-            this.chkBulkRetail.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkBulkRetail.Location = new System.Drawing.Point(16, 205);
             this.chkBulkRetail.Name = "chkBulkRetail";
             this.chkBulkRetail.Size = new System.Drawing.Size(94, 17);
@@ -557,7 +504,7 @@
             // chkBulkSale
             // 
             this.chkBulkSale.AutoSize = true;
-            this.chkBulkSale.Location = new System.Drawing.Point(16, 230);
+            this.chkBulkSale.Location = new System.Drawing.Point(120, 205);
             this.chkBulkSale.Name = "chkBulkSale";
             this.chkBulkSale.Size = new System.Drawing.Size(88, 17);
             this.chkBulkSale.TabIndex = 5;
@@ -565,17 +512,49 @@
             // 
             // btnBulkApply
             // 
-            this.btnBulkApply.Location = new System.Drawing.Point(201, 265);
+            this.btnBulkApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBulkApply.Location = new System.Drawing.Point(359, 265);
             this.btnBulkApply.Name = "btnBulkApply";
             this.btnBulkApply.Size = new System.Drawing.Size(75, 23);
             this.btnBulkApply.TabIndex = 6;
             this.btnBulkApply.Text = "Apply";
             this.btnBulkApply.Click += new System.EventHandler(this.btnBulkApply_Click);
             // 
+            // numBulkAmount
+            // 
+            this.numBulkAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this.numBulkAmount.DecimalPlaces = 2;
+            this.numBulkAmount.Location = new System.Drawing.Point(16, 45);
+            this.numBulkAmount.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.numBulkAmount.Name = "numBulkAmount";
+            this.numBulkAmount.Size = new System.Drawing.Size(120, 20);
+            this.numBulkAmount.TabIndex = 1;
+            this.numBulkAmount.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // lblBulkTitle
+            // 
+            this.lblBulkTitle.AutoSize = true;
+            this.lblBulkTitle.Location = new System.Drawing.Point(16, 15);
+            this.lblBulkTitle.Name = "lblBulkTitle";
+            this.lblBulkTitle.Size = new System.Drawing.Size(134, 13);
+            this.lblBulkTitle.TabIndex = 0;
+            this.lblBulkTitle.Text = "Bulk update selected items";
+            // 
             // panelDetails
             // 
+            this.panelDetails.Controls.Add(this.btnEditOptions);
+            this.panelDetails.Controls.Add(this.btnAddVariant);
+            this.panelDetails.Controls.Add(this.btnRemoveVariant);
             this.panelDetails.Controls.Add(this.btnEditDetails);
-            this.panelDetails.Controls.Add(this.listVariants);
+            this.panelDetails.Controls.Add(this.dataGridViewVariants);
             this.panelDetails.Controls.Add(this.lblDetName);
             this.panelDetails.Controls.Add(this.lblDetSku);
             this.panelDetails.Controls.Add(this.lblDetCode);
@@ -591,8 +570,42 @@
             this.panelDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDetails.Location = new System.Drawing.Point(0, 0);
             this.panelDetails.Name = "panelDetails";
-            this.panelDetails.Size = new System.Drawing.Size(450, 294);
+            this.panelDetails.Size = new System.Drawing.Size(450, 396);
             this.panelDetails.TabIndex = 0;
+            // 
+            // btnEditOptions
+            // 
+            this.btnEditOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEditOptions.Location = new System.Drawing.Point(362, 39);
+            this.btnEditOptions.Name = "btnEditOptions";
+            this.btnEditOptions.Size = new System.Drawing.Size(75, 23);
+            this.btnEditOptions.TabIndex = 29;
+            this.btnEditOptions.Text = "Options...";
+            this.btnEditOptions.UseVisualStyleBackColor = true;
+            this.btnEditOptions.Enabled = false;
+            this.btnEditOptions.Click += new System.EventHandler(this.btnEditOptions_Click);
+            // 
+            // btnAddVariant
+            // 
+            this.btnAddVariant.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddVariant.Location = new System.Drawing.Point(362, 230);
+            this.btnAddVariant.Name = "btnAddVariant";
+            this.btnAddVariant.Size = new System.Drawing.Size(75, 23);
+            this.btnAddVariant.TabIndex = 27;
+            this.btnAddVariant.Text = "Add";
+            this.btnAddVariant.UseVisualStyleBackColor = true;
+            this.btnAddVariant.Click += new System.EventHandler(this.btnAddVariant_Click);
+            // 
+            // btnRemoveVariant
+            // 
+            this.btnRemoveVariant.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemoveVariant.Location = new System.Drawing.Point(362, 259);
+            this.btnRemoveVariant.Name = "btnRemoveVariant";
+            this.btnRemoveVariant.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveVariant.TabIndex = 28;
+            this.btnRemoveVariant.Text = "Remove";
+            this.btnRemoveVariant.UseVisualStyleBackColor = true;
+            this.btnRemoveVariant.Click += new System.EventHandler(this.btnRemoveVariant_Click);
             // 
             // btnEditDetails
             // 
@@ -605,15 +618,22 @@
             this.btnEditDetails.UseVisualStyleBackColor = true;
             this.btnEditDetails.Click += new System.EventHandler(this.btnEditSelected_Click);
             // 
-            // listVariants
+            // dataGridViewVariants
             // 
-            this.listVariants.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dataGridViewVariants.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.listVariants.Location = new System.Drawing.Point(16, 230);
-            this.listVariants.Name = "listVariants";
-            this.listVariants.Size = new System.Drawing.Size(421, 56);
-            this.listVariants.TabIndex = 12;
+            this.dataGridViewVariants.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewVariants.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewVariants.Location = new System.Drawing.Point(16, 230);
+            this.dataGridViewVariants.Name = "dataGridViewVariants";
+            this.dataGridViewVariants.Size = new System.Drawing.Size(340, 149);
+            this.dataGridViewVariants.TabIndex = 26;
+            this.dataGridViewVariants.AllowUserToAddRows = false;
+            this.dataGridViewVariants.AllowUserToDeleteRows = false;
+            this.dataGridViewVariants.ReadOnly = false;
+            this.dataGridViewVariants.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewVariants.MultiSelect = false;
             // 
             // lblDetName
             // 
@@ -724,6 +744,37 @@
             this.txtDetStock.Size = new System.Drawing.Size(100, 20);
             this.txtDetStock.TabIndex = 25;
             // 
+            // panelLog
+            // 
+            this.panelLog.Controls.Add(this.richTextBoxLog);
+            this.panelLog.Controls.Add(this.chkDetailedLog);
+            this.panelLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelLog.Location = new System.Drawing.Point(3, 405);
+            this.panelLog.Name = "panelLog";
+            this.panelLog.Size = new System.Drawing.Size(450, 193);
+            this.panelLog.TabIndex = 1;
+            // 
+            // richTextBoxLog
+            // 
+            this.richTextBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxLog.Location = new System.Drawing.Point(0, 17);
+            this.richTextBoxLog.Name = "richTextBoxLog";
+            this.richTextBoxLog.ReadOnly = true;
+            this.richTextBoxLog.Size = new System.Drawing.Size(450, 176);
+            this.richTextBoxLog.TabIndex = 0;
+            this.richTextBoxLog.Text = "";
+            // 
+            // chkDetailedLog
+            // 
+            this.chkDetailedLog.Dock = System.Windows.Forms.DockStyle.Top;
+            this.chkDetailedLog.Location = new System.Drawing.Point(0, 0);
+            this.chkDetailedLog.Name = "chkDetailedLog";
+            this.chkDetailedLog.Size = new System.Drawing.Size(450, 17);
+            this.chkDetailedLog.TabIndex = 1;
+            this.chkDetailedLog.Text = "Detailed Log";
+            this.chkDetailedLog.UseVisualStyleBackColor = true;
+            this.chkDetailedLog.CheckedChanged += new System.EventHandler(this.chkDetailedLog_CheckedChanged);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -788,6 +839,7 @@
             this.groupBoxDirection.PerformLayout();
             this.panelDetails.ResumeLayout(false);
             this.panelDetails.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVariants)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -812,9 +864,9 @@
         private System.Windows.Forms.ToolStripMenuItem darkGrayThemeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem matrixThemeToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStripMain;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButtonOpen;
         private System.Windows.Forms.ToolStripButton toolStripButtonSave;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButtonEdit;
         private System.Windows.Forms.ToolStripButton toolStripButtonBulk;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -828,25 +880,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridViewProducts;
         private System.Windows.Forms.TableLayoutPanel rightTable;
-        private System.Windows.Forms.Panel panelLog;
-        private System.Windows.Forms.CheckBox chkDetailedLog;
-        private System.Windows.Forms.RichTextBox richTextBoxLog;
         private System.Windows.Forms.Panel panelRightBottom;
-        private System.Windows.Forms.Panel panelDetails;
-        private System.Windows.Forms.Button btnEditDetails;
-        private System.Windows.Forms.ListBox listVariants;
-        private System.Windows.Forms.Label lblDetName;
-        private System.Windows.Forms.Label lblDetSku;
-        private System.Windows.Forms.Label lblDetCode;
-        private System.Windows.Forms.Label lblDetRetail;
-        private System.Windows.Forms.Label lblDetSale;
-        private System.Windows.Forms.Label lblDetStock;
-        private System.Windows.Forms.TextBox txtDetName;
-        private System.Windows.Forms.TextBox txtDetSku;
-        private System.Windows.Forms.TextBox txtDetCode;
-        private System.Windows.Forms.TextBox txtDetRetail;
-        private System.Windows.Forms.TextBox txtDetSale;
-        private System.Windows.Forms.TextBox txtDetStock;
         private System.Windows.Forms.Panel panelBulk;
         private System.Windows.Forms.Label lblBulkTitle;
         private System.Windows.Forms.NumericUpDown numBulkAmount;
@@ -859,6 +893,27 @@
         private System.Windows.Forms.CheckBox chkBulkRetail;
         private System.Windows.Forms.CheckBox chkBulkSale;
         private System.Windows.Forms.Button btnBulkApply;
+        private System.Windows.Forms.Panel panelDetails;
+        private System.Windows.Forms.Button btnEditOptions;
+        private System.Windows.Forms.Button btnAddVariant;
+        private System.Windows.Forms.Button btnRemoveVariant;
+        private System.Windows.Forms.Button btnEditDetails;
+        private System.Windows.Forms.DataGridView dataGridViewVariants;
+        private System.Windows.Forms.Label lblDetName;
+        private System.Windows.Forms.Label lblDetSku;
+        private System.Windows.Forms.Label lblDetCode;
+        private System.Windows.Forms.Label lblDetRetail;
+        private System.Windows.Forms.Label lblDetSale;
+        private System.Windows.Forms.Label lblDetStock;
+        private System.Windows.Forms.TextBox txtDetName;
+        private System.Windows.Forms.TextBox txtDetSku;
+        private System.Windows.Forms.TextBox txtDetCode;
+        private System.Windows.Forms.TextBox txtDetRetail;
+        private System.Windows.Forms.TextBox txtDetSale;
+        private System.Windows.Forms.TextBox txtDetStock;
+        private System.Windows.Forms.Panel panelLog;
+        private System.Windows.Forms.CheckBox chkDetailedLog;
+        private System.Windows.Forms.RichTextBox richTextBoxLog;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;

@@ -70,6 +70,12 @@
     <Compile Include="Forms\ProductEditForm.Designer.cs">
       <DependentUpon>ProductEditForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\VariantEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VariantEditForm.Designer.cs">
+      <DependentUpon>VariantEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Product.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
