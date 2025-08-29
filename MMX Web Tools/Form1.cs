@@ -29,6 +29,10 @@ namespace MMX_Web_Tools
         private bool _searchFilterMode = true; // true=filter results, false=navigate
         private bool _detailedLog = false;
 
+        // Sale templates
+        private List<SaleTemplate> _templates = new List<SaleTemplate>();
+        private SaleTemplate _activeTemplate = null;
+
         // variants binding for details panel
         private BindingList<Variant> _variantBinding = null;
 
@@ -41,6 +45,27 @@ namespace MMX_Web_Tools
             panelBulk.Visible = false;
             panelDetails.Visible = true;
             chkDetailedLog.CheckedChanged += chkDetailedLog_CheckedChanged;
+
+            // Apply default theme and listen for theme changes
+            ThemeManager.ApplyTheme(this, AppTheme.Light);
+            ThemeManager.ThemeChanged += t => ThemeManager.ApplyTheme(this, t);
+
+            // Set modern glyph icons
+            ApplyToolStripIcons();
+        }
+
+        private void ApplyToolStripIcons()
+        {
+            var p = ThemeManager.GetPalette(ThemeManager.CurrentTheme);
+            // Use circle backgrounds with themed colors and white/green foregrounds
+            toolStripButtonOpen.Image = IconFactory.CreateCircularIcon("⭳", p.ButtonBack, p.ButtonFore, 18);
+            toolStripButtonSave.Image = IconFactory.CreateCircularIcon("💾", p.ButtonBack, p.ButtonFore, 18);
+            toolStripButtonEdit.Image = IconFactory.CreateCircularIcon("✎", p.ButtonBack, p.ButtonFore, 18);
+            toolStripButtonBulk.Image = IconFactory.CreateCircularIcon("⇧", p.ButtonBack, p.ButtonFore, 18);
+            toolStripButtonSearch.Image = IconFactory.CreateCircularIcon("🔎", p.ButtonBack, p.ButtonFore, 18);
+
+            // Refresh icons on theme change
+            ThemeManager.ThemeChanged += _ => ApplyToolStripIcons();
         }
 
         private void chkDetailedLog_CheckedChanged(object sender, EventArgs e)
@@ -80,15 +105,16 @@ namespace MMX_Web_Tools
                 var row = dataGridViewProducts.Rows[e.RowIndex];
                 var product = row.DataBoundItem as Product;
                 if (product == null) return;
-                // If product has variants -> treat as main (color A). If attached/child concept existed we would color differently.
-                // Using: has variants => highlight; no variants => default.
+                var palette = ThemeManager.GetPalette(ThemeManager.CurrentTheme);
                 if (product.Variants != null && product.Variants.Count > 0)
                 {
-                    row.DefaultCellStyle.BackColor = Color.FromArgb(255, 250, 235); // light orange tint
+                    row.DefaultCellStyle.BackColor = palette.GridVariantRowBack;
+                    row.DefaultCellStyle.ForeColor = palette.GridFore;
                 }
                 else
                 {
-                    row.DefaultCellStyle.BackColor = Color.White;
+                    row.DefaultCellStyle.BackColor = palette.GridBack;
+                    row.DefaultCellStyle.ForeColor = palette.GridFore;
                 }
             };
         }
@@ -181,6 +207,12 @@ namespace MMX_Web_Tools
             }
         }
 
+        // About
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(this, "MMX Product Pricing Manager\nWritten by MattG", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         // Export helpers
         private void ExportCsv(string fileName)
         {
@@ -208,7 +240,8 @@ namespace MMX_Web_Tools
                 }
                 else
                 {
-                    sb.AppendLine(string.Join(",",
+                    sb.AppendLine
+                    (string.Join(",",
                         p.CategoryId, p.SubCategoryId,
                         Csv(p.Name), Csv(p.Sku), Csv(p.Code),
                         p.Cost1.ToString(CultureInfo.InvariantCulture),
@@ -396,14 +429,85 @@ namespace MMX_Web_Tools
             toolStripTextBoxSearch.SelectAll();
         }
 
+        private void noneTemplateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _activeTemplate = null;
+            ApplySearch(toolStripTextBoxSearch.Text);
+            toolStripStatusLabel.Text = "Sale template: None";
+        }
+
+        private void manageTemplatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new TemplateManagerForm(_templates))
+            {
+                if (dlg.ShowDialog(this) == DialogResult.OK)
+                {
+                    _templates = dlg.Templates.ToList();
+                    // Rebuild the Sale Templates dropdown: first item is None, then templates, then Manage...
+                    saleTemplatesToolStripMenuItem.DropDownItems.Clear();
+                    saleTemplatesToolStripMenuItem.DropDownItems.Add(noneTemplateToolStripMenuItem);
+                    foreach (var t in _templates)
+                    {
+                        var item = new ToolStripMenuItem(t.Name);
+                        item.Tag = t;
+                        item.Click += (s, _) => { _activeTemplate = (SaleTemplate)((ToolStripMenuItem)s).Tag; ApplySearch(toolStripTextBoxSearch.Text); UpdateTemplateStatus(); };
+                        saleTemplatesToolStripMenuItem.DropDownItems.Add(item);
+                    }
+                    saleTemplatesToolStripMenuItem.DropDownItems.Add(manageTemplatesToolStripMenuItem);
+                    UpdateTemplateStatus();
+                }
+            }
+        }
+
+        private void UpdateTemplateStatus()
+        {
+            if (_activeTemplate == null)
+            {
+                toolStripStatusLabel.Text = "Sale template: None";
+                return;
+            }
+            // calculate unmatched terms
+            var terms = (_activeTemplate.Terms ?? new List<string>()).Where(t => !string.IsNullOrWhiteSpace(t)).ToList();
+            var lower = new HashSet<string>(terms.Select(t => t.ToLowerInvariant()));
+            var matched = new HashSet<string>();
+            foreach (var p in _allProducts)
+            {
+                var hay = string.Join("|", p.Name ?? string.Empty, p.Sku ?? string.Empty, p.Code ?? string.Empty).ToLowerInvariant();
+                foreach (var term in lower)
+                {
+                    if (hay.Contains(term)) matched.Add(term);
+                }
+            }
+            var missing = terms.Where(t => !matched.Contains(t.ToLowerInvariant())).ToList();
+            toolStripStatusLabel.Text = missing.Count == 0 ? $"Sale template: {_activeTemplate.Name} (all matched)" : $"Sale template: {_activeTemplate.Name} (missing: {string.Join(", ", missing)})";
+        }
+
+        private IEnumerable<Product> ApplyTemplateFilter(IEnumerable<Product> source)
+        {
+            if (_activeTemplate == null) return source;
+            var terms = (_activeTemplate.Terms ?? new List<string>()).Where(t => !string.IsNullOrWhiteSpace(t)).Select(t => t.ToLowerInvariant()).ToList();
+            if (terms.Count == 0) return source;
+            // include products that match any term
+            var filtered = source.Where(p =>
+            {
+                var hay = string.Join("|", p.Name ?? string.Empty, p.Sku ?? string.Empty, p.Code ?? string.Empty).ToLowerInvariant();
+                return terms.Any(t => hay.Contains(t));
+            });
+            return filtered;
+        }
+
         private void ApplySearch(string text)
         {
             var term = (text ?? string.Empty).Trim();
             IEnumerable<Product> filtered = _allProducts;
+            if (_activeTemplate != null)
+            {
+                filtered = ApplyTemplateFilter(filtered);
+            }
             if (!string.IsNullOrEmpty(term))
             {
                 var t = term.ToLowerInvariant();
-                filtered = _allProducts.Where(p =>
+                filtered = filtered.Where(p =>
                     (p.Name ?? string.Empty).ToLowerInvariant().Contains(t) ||
                     (p.Sku ?? string.Empty).ToLowerInvariant().Contains(t) ||
                     (p.Code ?? string.Empty).ToLowerInvariant().Contains(t));
@@ -439,82 +543,45 @@ namespace MMX_Web_Tools
                 }
                 toolStripStatusLabel.Text = $"Showing {_products.Count} items";
             }
+            UpdateTemplateStatus();
         }
 
         // Theme
         private void darkGrayThemeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ApplyTheme(dark: true, matrix: false);
+            // Map to Dim
+            ThemeManager.CurrentTheme = AppTheme.Dim;
+            ThemeManager.ApplyTheme(this);
         }
 
         private void matrixThemeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ApplyTheme(dark: true, matrix: true);
+            ThemeManager.CurrentTheme = AppTheme.MatrixDark;
+            ThemeManager.ApplyTheme(this);
+        }
+
+        private void lightThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ThemeManager.CurrentTheme = AppTheme.Light;
+            ThemeManager.ApplyTheme(this);
         }
 
         private void ApplyTheme(bool dark, bool matrix)
         {
-            Color back = SystemColors.Control;
-            Color fore = SystemColors.ControlText;
-            Color gridBack = Color.White;
-            Color gridFore = Color.Black;
-
-            if (dark)
+            // Preserve old signature for compatibility with existing handlers if any other code calls it
+            if (!dark)
             {
-                back = Color.FromArgb(45, 45, 48);
-                fore = Color.Gainsboro;
-                gridBack = Color.FromArgb(30, 30, 30);
-                gridFore = Color.Gainsboro;
-                richTextBoxLog.Font = matrix ? new Font("Consolas", 9f) : SystemFonts.DefaultFont;
+                ThemeManager.CurrentTheme = AppTheme.Light;
+            }
+            else if (matrix)
+            {
+                ThemeManager.CurrentTheme = AppTheme.MatrixDark;
             }
             else
             {
-                richTextBoxLog.Font = SystemFonts.DefaultFont;
+                ThemeManager.CurrentTheme = AppTheme.Dim;
             }
-
-            this.BackColor = back; this.ForeColor = fore;
-            menuStrip1.BackColor = back; menuStrip1.ForeColor = fore;
-            toolStripMain.BackColor = back; toolStripMain.ForeColor = fore;
-            statusStrip1.BackColor = back; statusStrip1.ForeColor = fore;
-
-            dataGridViewProducts.BackgroundColor = gridBack;
-            dataGridViewProducts.DefaultCellStyle.BackColor = gridBack;
-            dataGridViewProducts.DefaultCellStyle.ForeColor = gridFore;
-            dataGridViewProducts.ColumnHeadersDefaultCellStyle.BackColor = back;
-            dataGridViewProducts.ColumnHeadersDefaultCellStyle.ForeColor = fore;
-            dataGridViewProducts.EnableHeadersVisualStyles = false;
-
-            if (dataGridViewVariants != null)
-            {
-                dataGridViewVariants.BackgroundColor = gridBack;
-                dataGridViewVariants.DefaultCellStyle.BackColor = gridBack;
-                dataGridViewVariants.DefaultCellStyle.ForeColor = gridFore;
-                dataGridViewVariants.ColumnHeadersDefaultCellStyle.BackColor = back;
-                dataGridViewVariants.ColumnHeadersDefaultCellStyle.ForeColor = fore;
-                dataGridViewVariants.EnableHeadersVisualStyles = false;
-            }
-
-            rightTable.BackColor = back; rightTable.ForeColor = fore;
-            panelRightBottom.BackColor = back; panelRightBottom.ForeColor = fore;
-            panelDetails.BackColor = back; panelDetails.ForeColor = fore;
-            panelBulk.BackColor = back; panelBulk.ForeColor = fore;
-            richTextBoxLog.BackColor = gridBack; richTextBoxLog.ForeColor = gridFore;
-
-            foreach (Control c in panelDetails.Controls)
-                if (!(c is Button) && !(c is DataGridView)) { c.BackColor = back; c.ForeColor = fore; }
-            foreach (Control c in panelBulk.Controls)
-                if (!(c is Button)) { c.BackColor = back; c.ForeColor = fore; }
-
-            toolStripTextBoxSearch.BackColor = dark ? Color.FromArgb(30,30,30) : SystemColors.Window;
-            toolStripTextBoxSearch.ForeColor = dark && matrix ? Color.FromArgb(0,255,0) : (dark ? Color.Gainsboro : SystemColors.WindowText);
-
-            var buttonBack = dark ? Color.FromArgb(63,63,70) : SystemColors.Control;
-            var buttonFore = dark ? (matrix ? Color.FromArgb(0,255,0) : Color.Gainsboro) : SystemColors.ControlText;
-            toolStripButtonEdit.BackColor = buttonBack; toolStripButtonEdit.ForeColor = buttonFore;
-            btnEditDetails.BackColor = buttonBack; btnEditDetails.ForeColor = buttonFore;
-            if (btnAddVariant != null) { btnAddVariant.BackColor = buttonBack; btnAddVariant.ForeColor = buttonFore; }
-            if (btnRemoveVariant != null) { btnRemoveVariant.BackColor = buttonBack; btnRemoveVariant.ForeColor = buttonFore; }
-            toolStripProgressBar.BackColor = buttonBack; toolStripProgressBar.ForeColor = buttonFore;
+            ThemeManager.ApplyTheme(this);
         }
 
         // Selection and bulk

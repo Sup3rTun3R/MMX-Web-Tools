@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using MMX_Web_Tools.Utils;
 
 namespace MMX_Web_Tools
 {
@@ -14,6 +15,13 @@ namespace MMX_Web_Tools
         public BulkUpdateForm()
         {
             InitializeComponent();
+            // Apply current theme and keep in sync
+            ThemeManager.ApplyTheme(this, ThemeManager.CurrentTheme);
+            System.Windows.Forms.FormClosedEventHandler onClosed = null;
+            Action<AppTheme> handler = t => ThemeManager.ApplyTheme(this, t);
+            ThemeManager.ThemeChanged += handler;
+            onClosed = (s, e) => { ThemeManager.ThemeChanged -= handler; this.FormClosed -= onClosed; };
+            this.FormClosed += onClosed;
         }
 
         public decimal Apply(decimal value)

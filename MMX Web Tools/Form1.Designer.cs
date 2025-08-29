@@ -31,9 +31,14 @@
             this.detailedLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.focusSearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saleTemplatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.noneTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageTemplatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lightThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.darkGrayThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.matrixThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMain = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonOpen = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSave = new System.Windows.Forms.ToolStripButton();
@@ -104,6 +109,7 @@
             this.groupBoxDirection.SuspendLayout();
             this.panelDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVariants)).BeginInit();
+            this.panelLog.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,10 +117,11 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1200, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1522, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -148,6 +155,7 @@
             this.detailedLogToolStripMenuItem,
             this.findToolStripMenuItem,
             this.focusSearchToolStripMenuItem,
+            this.saleTemplatesToolStripMenuItem,
             this.themeToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
@@ -159,7 +167,7 @@
             this.filterResultsEditToolStripMenuItem,
             this.navigateEditToolStripMenuItem});
             this.searchModeToolStripMenuItem.Name = "searchModeToolStripMenuItem";
-            this.searchModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.searchModeToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.searchModeToolStripMenuItem.Text = "Search Mode";
             // 
             // filterResultsEditToolStripMenuItem
@@ -184,46 +192,84 @@
             // 
             this.detailedLogToolStripMenuItem.CheckOnClick = true;
             this.detailedLogToolStripMenuItem.Name = "detailedLogToolStripMenuItem";
-            this.detailedLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.detailedLogToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.detailedLogToolStripMenuItem.Text = "Detailed Log";
             this.detailedLogToolStripMenuItem.CheckedChanged += new System.EventHandler(this.detailedLogToolStripMenuItem_CheckedChanged);
             // 
             // findToolStripMenuItem
             // 
             this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.findToolStripMenuItem.Text = "Find";
             this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
             // 
             // focusSearchToolStripMenuItem
             // 
             this.focusSearchToolStripMenuItem.Name = "focusSearchToolStripMenuItem";
-            this.focusSearchToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.focusSearchToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.focusSearchToolStripMenuItem.Text = "Focus Search";
             this.focusSearchToolStripMenuItem.Click += new System.EventHandler(this.focusSearchToolStripMenuItem_Click);
+            // 
+            // saleTemplatesToolStripMenuItem
+            // 
+            this.saleTemplatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.noneTemplateToolStripMenuItem,
+            this.manageTemplatesToolStripMenuItem});
+            this.saleTemplatesToolStripMenuItem.Name = "saleTemplatesToolStripMenuItem";
+            this.saleTemplatesToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.saleTemplatesToolStripMenuItem.Text = "Sale Templates";
+            // 
+            // noneTemplateToolStripMenuItem
+            // 
+            this.noneTemplateToolStripMenuItem.Name = "noneTemplateToolStripMenuItem";
+            this.noneTemplateToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.noneTemplateToolStripMenuItem.Text = "None";
+            this.noneTemplateToolStripMenuItem.Click += new System.EventHandler(this.noneTemplateToolStripMenuItem_Click);
+            // 
+            // manageTemplatesToolStripMenuItem
+            // 
+            this.manageTemplatesToolStripMenuItem.Name = "manageTemplatesToolStripMenuItem";
+            this.manageTemplatesToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.manageTemplatesToolStripMenuItem.Text = "Manage...";
+            this.manageTemplatesToolStripMenuItem.Click += new System.EventHandler(this.manageTemplatesToolStripMenuItem_Click);
             // 
             // themeToolStripMenuItem
             // 
             this.themeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lightThemeToolStripMenuItem,
             this.darkGrayThemeToolStripMenuItem,
             this.matrixThemeToolStripMenuItem});
             this.themeToolStripMenuItem.Name = "themeToolStripMenuItem";
-            this.themeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.themeToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.themeToolStripMenuItem.Text = "Theme";
+            // 
+            // lightThemeToolStripMenuItem
+            // 
+            this.lightThemeToolStripMenuItem.Name = "lightThemeToolStripMenuItem";
+            this.lightThemeToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.lightThemeToolStripMenuItem.Text = "Light";
+            this.lightThemeToolStripMenuItem.Click += new System.EventHandler(this.lightThemeToolStripMenuItem_Click);
             // 
             // darkGrayThemeToolStripMenuItem
             // 
             this.darkGrayThemeToolStripMenuItem.Name = "darkGrayThemeToolStripMenuItem";
-            this.darkGrayThemeToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.darkGrayThemeToolStripMenuItem.Text = "Dark Gray";
+            this.darkGrayThemeToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.darkGrayThemeToolStripMenuItem.Text = "Dim";
             this.darkGrayThemeToolStripMenuItem.Click += new System.EventHandler(this.darkGrayThemeToolStripMenuItem_Click);
             // 
             // matrixThemeToolStripMenuItem
             // 
             this.matrixThemeToolStripMenuItem.Name = "matrixThemeToolStripMenuItem";
-            this.matrixThemeToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.matrixThemeToolStripMenuItem.Text = "Matrix";
+            this.matrixThemeToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.matrixThemeToolStripMenuItem.Text = "Matrix Dark";
             this.matrixThemeToolStripMenuItem.Click += new System.EventHandler(this.matrixThemeToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // toolStripMain
             // 
@@ -243,60 +289,64 @@
             this.toolStripMain.Location = new System.Drawing.Point(0, 24);
             this.toolStripMain.Name = "toolStripMain";
             this.toolStripMain.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStripMain.Size = new System.Drawing.Size(1200, 27);
+            this.toolStripMain.Size = new System.Drawing.Size(1522, 25);
             this.toolStripMain.TabIndex = 3;
             this.toolStripMain.Text = "toolStripMain";
             // 
             // toolStripButtonOpen
             // 
-            this.toolStripButtonOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
             this.toolStripButtonOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonOpen.Name = "toolStripButtonOpen";
-            this.toolStripButtonOpen.Size = new System.Drawing.Size(40, 24);
+            this.toolStripButtonOpen.Size = new System.Drawing.Size(52, 22);
             this.toolStripButtonOpen.Text = "Open";
+            this.toolStripButtonOpen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolStripButtonOpen.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripButtonSave
             // 
-            this.toolStripButtonSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
             this.toolStripButtonSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSave.Name = "toolStripButtonSave";
-            this.toolStripButtonSave.Size = new System.Drawing.Size(35, 24);
+            this.toolStripButtonSave.Size = new System.Drawing.Size(47, 22);
             this.toolStripButtonSave.Text = "Save";
+            this.toolStripButtonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolStripButtonSave.Click += new System.EventHandler(this.saveChangesToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButtonEdit
             // 
-            this.toolStripButtonEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
             this.toolStripButtonEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonEdit.Name = "toolStripButtonEdit";
-            this.toolStripButtonEdit.Size = new System.Drawing.Size(78, 24);
+            this.toolStripButtonEdit.Size = new System.Drawing.Size(88, 22);
             this.toolStripButtonEdit.Text = "Edit Selected";
+            this.toolStripButtonEdit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolStripButtonEdit.Click += new System.EventHandler(this.btnEditSelected_Click);
             // 
             // toolStripButtonBulk
             // 
-            this.toolStripButtonBulk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonBulk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
             this.toolStripButtonBulk.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonBulk.Name = "toolStripButtonBulk";
-            this.toolStripButtonBulk.Size = new System.Drawing.Size(75, 24);
+            this.toolStripButtonBulk.Size = new System.Drawing.Size(85, 22);
             this.toolStripButtonBulk.Text = "Bulk Update";
+            this.toolStripButtonBulk.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolStripButtonBulk.Click += new System.EventHandler(this.btnBulkUpdate_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripLabelSearch
             // 
             this.toolStripLabelSearch.Name = "toolStripLabelSearch";
-            this.toolStripLabelSearch.Size = new System.Drawing.Size(45, 24);
+            this.toolStripLabelSearch.Size = new System.Drawing.Size(45, 22);
             this.toolStripLabelSearch.Text = "Search:";
             // 
             // toolStripTextBoxSearch
@@ -309,11 +359,12 @@
             // 
             // toolStripButtonSearch
             // 
-            this.toolStripButtonSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
             this.toolStripButtonSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSearch.Name = "toolStripButtonSearch";
-            this.toolStripButtonSearch.Size = new System.Drawing.Size(26, 24);
+            this.toolStripButtonSearch.Size = new System.Drawing.Size(30, 22);
             this.toolStripButtonSearch.Text = "Go";
+            this.toolStripButtonSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolStripButtonSearch.Click += new System.EventHandler(this.toolStripButtonSearch_Click);
             // 
             // toolStripDropDownSearchMode
@@ -324,7 +375,7 @@
             this.navigateToolStripMenuItem});
             this.toolStripDropDownSearchMode.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownSearchMode.Name = "toolStripDropDownSearchMode";
-            this.toolStripDropDownSearchMode.Size = new System.Drawing.Size(51, 24);
+            this.toolStripDropDownSearchMode.Size = new System.Drawing.Size(51, 22);
             this.toolStripDropDownSearchMode.Text = "Mode";
             // 
             // filterResultsToolStripMenuItem
@@ -348,7 +399,7 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // splitContainer1
             // 
@@ -363,8 +414,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.rightTable);
-            this.splitContainer1.Size = new System.Drawing.Size(1200, 601);
-            this.splitContainer1.SplitterDistance = 740;
+            this.splitContainer1.Size = new System.Drawing.Size(1522, 601);
+            this.splitContainer1.SplitterDistance = 938;
             this.splitContainer1.TabIndex = 1;
             // 
             // dataGridViewProducts
@@ -379,7 +430,7 @@
             this.dataGridViewProducts.Name = "dataGridViewProducts";
             this.dataGridViewProducts.ReadOnly = true;
             this.dataGridViewProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewProducts.Size = new System.Drawing.Size(740, 601);
+            this.dataGridViewProducts.Size = new System.Drawing.Size(938, 601);
             this.dataGridViewProducts.TabIndex = 2;
             this.dataGridViewProducts.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewProducts_CellDoubleClick);
             this.dataGridViewProducts.SelectionChanged += new System.EventHandler(this.dataGridViewProducts_SelectionChanged);
@@ -397,7 +448,7 @@
             this.rightTable.RowCount = 2;
             this.rightTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 67F));
             this.rightTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33F));
-            this.rightTable.Size = new System.Drawing.Size(456, 601);
+            this.rightTable.Size = new System.Drawing.Size(580, 601);
             this.rightTable.TabIndex = 0;
             // 
             // panelRightBottom
@@ -407,7 +458,7 @@
             this.panelRightBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelRightBottom.Location = new System.Drawing.Point(3, 3);
             this.panelRightBottom.Name = "panelRightBottom";
-            this.panelRightBottom.Size = new System.Drawing.Size(450, 396);
+            this.panelRightBottom.Size = new System.Drawing.Size(574, 396);
             this.panelRightBottom.TabIndex = 0;
             // 
             // panelBulk
@@ -423,8 +474,35 @@
             this.panelBulk.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBulk.Location = new System.Drawing.Point(0, 0);
             this.panelBulk.Name = "panelBulk";
-            this.panelBulk.Size = new System.Drawing.Size(450, 396);
+            this.panelBulk.Size = new System.Drawing.Size(574, 396);
             this.panelBulk.TabIndex = 1;
+            // 
+            // lblBulkTitle
+            // 
+            this.lblBulkTitle.AutoSize = true;
+            this.lblBulkTitle.Location = new System.Drawing.Point(16, 15);
+            this.lblBulkTitle.Name = "lblBulkTitle";
+            this.lblBulkTitle.Size = new System.Drawing.Size(134, 13);
+            this.lblBulkTitle.TabIndex = 0;
+            this.lblBulkTitle.Text = "Bulk update selected items";
+            // 
+            // numBulkAmount
+            // 
+            this.numBulkAmount.DecimalPlaces = 2;
+            this.numBulkAmount.Location = new System.Drawing.Point(16, 45);
+            this.numBulkAmount.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.numBulkAmount.Name = "numBulkAmount";
+            this.numBulkAmount.Size = new System.Drawing.Size(120, 20);
+            this.numBulkAmount.TabIndex = 1;
+            this.numBulkAmount.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             // 
             // groupBoxType
             // 
@@ -434,7 +512,7 @@
             this.groupBoxType.Controls.Add(this.radioFixed);
             this.groupBoxType.Location = new System.Drawing.Point(16, 80);
             this.groupBoxType.Name = "groupBoxType";
-            this.groupBoxType.Size = new System.Drawing.Size(418, 55);
+            this.groupBoxType.Size = new System.Drawing.Size(542, 55);
             this.groupBoxType.TabIndex = 2;
             this.groupBoxType.TabStop = false;
             this.groupBoxType.Text = "Amount Type";
@@ -467,7 +545,7 @@
             this.groupBoxDirection.Controls.Add(this.radioDecrease);
             this.groupBoxDirection.Location = new System.Drawing.Point(16, 140);
             this.groupBoxDirection.Name = "groupBoxDirection";
-            this.groupBoxDirection.Size = new System.Drawing.Size(418, 55);
+            this.groupBoxDirection.Size = new System.Drawing.Size(542, 55);
             this.groupBoxDirection.TabIndex = 3;
             this.groupBoxDirection.TabStop = false;
             this.groupBoxDirection.Text = "Direction";
@@ -513,40 +591,12 @@
             // btnBulkApply
             // 
             this.btnBulkApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBulkApply.Location = new System.Drawing.Point(359, 265);
+            this.btnBulkApply.Location = new System.Drawing.Point(483, 265);
             this.btnBulkApply.Name = "btnBulkApply";
             this.btnBulkApply.Size = new System.Drawing.Size(75, 23);
             this.btnBulkApply.TabIndex = 6;
             this.btnBulkApply.Text = "Apply";
             this.btnBulkApply.Click += new System.EventHandler(this.btnBulkApply_Click);
-            // 
-            // numBulkAmount
-            // 
-            this.numBulkAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
-            this.numBulkAmount.DecimalPlaces = 2;
-            this.numBulkAmount.Location = new System.Drawing.Point(16, 45);
-            this.numBulkAmount.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.numBulkAmount.Name = "numBulkAmount";
-            this.numBulkAmount.Size = new System.Drawing.Size(120, 20);
-            this.numBulkAmount.TabIndex = 1;
-            this.numBulkAmount.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            // 
-            // lblBulkTitle
-            // 
-            this.lblBulkTitle.AutoSize = true;
-            this.lblBulkTitle.Location = new System.Drawing.Point(16, 15);
-            this.lblBulkTitle.Name = "lblBulkTitle";
-            this.lblBulkTitle.Size = new System.Drawing.Size(134, 13);
-            this.lblBulkTitle.TabIndex = 0;
-            this.lblBulkTitle.Text = "Bulk update selected items";
             // 
             // panelDetails
             // 
@@ -570,25 +620,25 @@
             this.panelDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDetails.Location = new System.Drawing.Point(0, 0);
             this.panelDetails.Name = "panelDetails";
-            this.panelDetails.Size = new System.Drawing.Size(450, 396);
+            this.panelDetails.Size = new System.Drawing.Size(574, 396);
             this.panelDetails.TabIndex = 0;
             // 
             // btnEditOptions
             // 
             this.btnEditOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEditOptions.Location = new System.Drawing.Point(362, 39);
+            this.btnEditOptions.Enabled = false;
+            this.btnEditOptions.Location = new System.Drawing.Point(486, 39);
             this.btnEditOptions.Name = "btnEditOptions";
             this.btnEditOptions.Size = new System.Drawing.Size(75, 23);
             this.btnEditOptions.TabIndex = 29;
             this.btnEditOptions.Text = "Options...";
             this.btnEditOptions.UseVisualStyleBackColor = true;
-            this.btnEditOptions.Enabled = false;
             this.btnEditOptions.Click += new System.EventHandler(this.btnEditOptions_Click);
             // 
             // btnAddVariant
             // 
             this.btnAddVariant.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddVariant.Location = new System.Drawing.Point(362, 230);
+            this.btnAddVariant.Location = new System.Drawing.Point(486, 230);
             this.btnAddVariant.Name = "btnAddVariant";
             this.btnAddVariant.Size = new System.Drawing.Size(75, 23);
             this.btnAddVariant.TabIndex = 27;
@@ -599,7 +649,7 @@
             // btnRemoveVariant
             // 
             this.btnRemoveVariant.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveVariant.Location = new System.Drawing.Point(362, 259);
+            this.btnRemoveVariant.Location = new System.Drawing.Point(486, 259);
             this.btnRemoveVariant.Name = "btnRemoveVariant";
             this.btnRemoveVariant.Size = new System.Drawing.Size(75, 23);
             this.btnRemoveVariant.TabIndex = 28;
@@ -610,7 +660,7 @@
             // btnEditDetails
             // 
             this.btnEditDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEditDetails.Location = new System.Drawing.Point(362, 10);
+            this.btnEditDetails.Location = new System.Drawing.Point(486, 10);
             this.btnEditDetails.Name = "btnEditDetails";
             this.btnEditDetails.Size = new System.Drawing.Size(75, 23);
             this.btnEditDetails.TabIndex = 13;
@@ -620,20 +670,19 @@
             // 
             // dataGridViewVariants
             // 
+            this.dataGridViewVariants.AllowUserToAddRows = false;
+            this.dataGridViewVariants.AllowUserToDeleteRows = false;
             this.dataGridViewVariants.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewVariants.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewVariants.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewVariants.Location = new System.Drawing.Point(16, 230);
-            this.dataGridViewVariants.Name = "dataGridViewVariants";
-            this.dataGridViewVariants.Size = new System.Drawing.Size(340, 149);
-            this.dataGridViewVariants.TabIndex = 26;
-            this.dataGridViewVariants.AllowUserToAddRows = false;
-            this.dataGridViewVariants.AllowUserToDeleteRows = false;
-            this.dataGridViewVariants.ReadOnly = false;
-            this.dataGridViewVariants.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewVariants.MultiSelect = false;
+            this.dataGridViewVariants.Name = "dataGridViewVariants";
+            this.dataGridViewVariants.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewVariants.Size = new System.Drawing.Size(464, 149);
+            this.dataGridViewVariants.TabIndex = 26;
             // 
             // lblDetName
             // 
@@ -697,7 +746,7 @@
             this.txtDetName.Multiline = true;
             this.txtDetName.Name = "txtDetName";
             this.txtDetName.ReadOnly = true;
-            this.txtDetName.Size = new System.Drawing.Size(240, 42);
+            this.txtDetName.Size = new System.Drawing.Size(364, 42);
             this.txtDetName.TabIndex = 20;
             // 
             // txtDetSku
@@ -707,7 +756,7 @@
             this.txtDetSku.Location = new System.Drawing.Point(100, 62);
             this.txtDetSku.Name = "txtDetSku";
             this.txtDetSku.ReadOnly = true;
-            this.txtDetSku.Size = new System.Drawing.Size(240, 20);
+            this.txtDetSku.Size = new System.Drawing.Size(364, 20);
             this.txtDetSku.TabIndex = 21;
             // 
             // txtDetCode
@@ -717,7 +766,7 @@
             this.txtDetCode.Location = new System.Drawing.Point(100, 92);
             this.txtDetCode.Name = "txtDetCode";
             this.txtDetCode.ReadOnly = true;
-            this.txtDetCode.Size = new System.Drawing.Size(240, 20);
+            this.txtDetCode.Size = new System.Drawing.Size(364, 20);
             this.txtDetCode.TabIndex = 22;
             // 
             // txtDetRetail
@@ -751,7 +800,7 @@
             this.panelLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelLog.Location = new System.Drawing.Point(3, 405);
             this.panelLog.Name = "panelLog";
-            this.panelLog.Size = new System.Drawing.Size(450, 193);
+            this.panelLog.Size = new System.Drawing.Size(574, 193);
             this.panelLog.TabIndex = 1;
             // 
             // richTextBoxLog
@@ -760,7 +809,7 @@
             this.richTextBoxLog.Location = new System.Drawing.Point(0, 17);
             this.richTextBoxLog.Name = "richTextBoxLog";
             this.richTextBoxLog.ReadOnly = true;
-            this.richTextBoxLog.Size = new System.Drawing.Size(450, 176);
+            this.richTextBoxLog.Size = new System.Drawing.Size(574, 176);
             this.richTextBoxLog.TabIndex = 0;
             this.richTextBoxLog.Text = "";
             // 
@@ -769,7 +818,7 @@
             this.chkDetailedLog.Dock = System.Windows.Forms.DockStyle.Top;
             this.chkDetailedLog.Location = new System.Drawing.Point(0, 0);
             this.chkDetailedLog.Name = "chkDetailedLog";
-            this.chkDetailedLog.Size = new System.Drawing.Size(450, 17);
+            this.chkDetailedLog.Size = new System.Drawing.Size(574, 17);
             this.chkDetailedLog.TabIndex = 1;
             this.chkDetailedLog.Text = "Detailed Log";
             this.chkDetailedLog.UseVisualStyleBackColor = true;
@@ -782,7 +831,7 @@
             this.toolStripProgressBar});
             this.statusStrip1.Location = new System.Drawing.Point(0, 650);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1200, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1522, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -809,7 +858,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1200, 672);
+            this.ClientSize = new System.Drawing.Size(1522, 672);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStripMain);
             this.Controls.Add(this.statusStrip1);
@@ -827,8 +876,6 @@
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProducts)).EndInit();
             this.rightTable.ResumeLayout(false);
-            this.panelLog.ResumeLayout(false);
-            this.panelLog.PerformLayout();
             this.panelRightBottom.ResumeLayout(false);
             this.panelBulk.ResumeLayout(false);
             this.panelBulk.PerformLayout();
@@ -840,6 +887,7 @@
             this.panelDetails.ResumeLayout(false);
             this.panelDetails.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVariants)).EndInit();
+            this.panelLog.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -860,9 +908,14 @@
         private System.Windows.Forms.ToolStripMenuItem detailedLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem findToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem focusSearchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saleTemplatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem noneTemplateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem manageTemplatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem themeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lightThemeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem darkGrayThemeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem matrixThemeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStripMain;
         private System.Windows.Forms.ToolStripButton toolStripButtonOpen;
         private System.Windows.Forms.ToolStripButton toolStripButtonSave;

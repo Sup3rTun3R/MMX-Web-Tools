@@ -2,6 +2,7 @@ using MMX_Web_Tools.Models;
 using System;
 using System.Globalization;
 using System.Windows.Forms;
+using MMX_Web_Tools.Utils;
 
 namespace MMX_Web_Tools
 {
@@ -25,6 +26,14 @@ namespace MMX_Web_Tools
             numStock.Value = _product.Stock;
             OriginalRetail = _product.Retail;
             OriginalSale = _product.Sale;
+
+            // Apply theme and keep in sync
+            ThemeManager.ApplyTheme(this, ThemeManager.CurrentTheme);
+            System.Windows.Forms.FormClosedEventHandler onClosed = null;
+            Action<AppTheme> handler = t => ThemeManager.ApplyTheme(this, t);
+            ThemeManager.ThemeChanged += handler;
+            onClosed = (s, e) => { ThemeManager.ThemeChanged -= handler; this.FormClosed -= onClosed; };
+            this.FormClosed += onClosed;
         }
 
         private void btnOk_Click(object sender, EventArgs e)
