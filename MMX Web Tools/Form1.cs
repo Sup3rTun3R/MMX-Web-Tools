@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using MMX_Web_Tools.Controls;
 
 namespace MMX_Web_Tools
 {
@@ -36,6 +37,10 @@ namespace MMX_Web_Tools
         // variants binding for details panel
         private BindingList<Variant> _variantBinding = null;
 
+        // themed status progress bar host
+        private ThemedProgressBar _statusProgressBar;
+        private ToolStripControlHost _statusProgressHost;
+
         public Form1()
         {
             InitializeComponent();
@@ -46,12 +51,49 @@ namespace MMX_Web_Tools
             panelDetails.Visible = true;
             chkDetailedLog.CheckedChanged += chkDetailedLog_CheckedChanged;
 
+            // Replace default ToolStripProgressBar with themed one
+            SetupThemedStatusProgressBar();
+
             // Apply default theme and listen for theme changes
             ThemeManager.ApplyTheme(this, AppTheme.Light);
             ThemeManager.ThemeChanged += t => ThemeManager.ApplyTheme(this, t);
 
             // Set modern glyph icons
             ApplyToolStripIcons();
+        }
+
+        private void SetupThemedStatusProgressBar()
+        {
+            try
+            {
+                _statusProgressBar = new ThemedProgressBar
+                {
+                    Minimum = 0,
+                    Maximum = 100,
+                    Value = 0,
+                    Size = new Size(200, 16)
+                };
+                _statusProgressHost = new ToolStripControlHost(_statusProgressBar)
+                {
+                    Alignment = ToolStripItemAlignment.Right,
+                    AutoSize = false,
+                    Size = new Size(200, 16),
+                    Margin = new Padding(4, 3, 4, 3)
+                };
+
+                if (toolStripProgressBar != null)
+                {
+                    // remove default progress bar to avoid the light background
+                    statusStrip1.Items.Remove(toolStripProgressBar);
+                    toolStripProgressBar.Visible = false;
+                }
+
+                statusStrip1.Items.Add(_statusProgressHost);
+            }
+            catch
+            {
+                // ignore setup errors; fallback to default progress bar
+            }
         }
 
         private void ApplyToolStripIcons()
@@ -146,6 +188,21 @@ namespace MMX_Web_Tools
             richTextBoxLog.AppendText(prefix + message + Environment.NewLine);
         }
 
+        private void SetProgress(int value)
+        {
+            int v = Math.Min(100, Math.Max(0, value));
+            if (_statusProgressBar != null)
+            {
+                // avoid exception when setting value to 0 when min=0 and max=0
+                _statusProgressBar.Value = v;
+                _statusProgressBar.Invalidate();
+            }
+            if (toolStripProgressBar != null)
+            {
+                toolStripProgressBar.Value = v;
+            }
+        }
+
         // File menu
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -156,7 +213,7 @@ namespace MMX_Web_Tools
                 {
                     _currentFile = ofd.FileName;
                     toolStripStatusLabel.Text = $"Loading {_currentFile}...";
-                    toolStripProgressBar.Value = 0;
+                    SetProgress(0);
                     _products.Clear();
                     _allProducts.Clear();
                     richTextBoxLog.Clear();
@@ -763,10 +820,10 @@ namespace MMX_Web_Tools
             catch (Exception ex) { e.Result = ex; }
         }
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        { toolStripProgressBar.Value = Math.Min(100, Math.Max(0, e.ProgressPercentage)); }
+        { SetProgress(e.ProgressPercentage); }
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            toolStripStatusLabel.Text = "Ready"; toolStripProgressBar.Value = 0;
+            toolStripStatusLabel.Text = "Ready"; SetProgress(0);
             if (e.Result is Exception ex) { MessageBox.Show(this, ex.Message, "Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
             _allProducts = e.Result as List<Product> ?? new List<Product>(); _allProducts = _allProducts.OrderBy(p => p.Name ?? string.Empty).ToList(); ApplySearch(toolStripTextBoxSearch.Text);
         }

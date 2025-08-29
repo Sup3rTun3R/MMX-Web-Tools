@@ -36,6 +36,10 @@ namespace MMX_Web_Tools.Utils
             public Color GridSelectionFore { get; set; }
             public Color GridVariantRowBack { get; set; }
             public Font LogFont { get; set; }
+            // New: progress colors
+            public Color ProgressBack { get; set; }
+            public Color ProgressFore { get; set; }
+            public Color ProgressBorder { get; set; }
         }
 
         private static AppTheme _current = AppTheme.Light;
@@ -79,7 +83,10 @@ namespace MMX_Web_Tools.Utils
                         GridSelectionBack = Color.FromArgb(100, 112, 132),
                         GridSelectionFore = Color.White,
                         GridVariantRowBack = Color.FromArgb(60, 56, 50),
-                        LogFont = SystemFonts.DefaultFont
+                        LogFont = SystemFonts.DefaultFont,
+                        ProgressBack = Color.FromArgb(64, 68, 76),
+                        ProgressFore = Color.FromArgb(80, 160, 220),
+                        ProgressBorder = Color.FromArgb(90, 94, 104)
                     };
                 case AppTheme.MatrixDark:
                     var green = Color.FromArgb(0, 255, 0);
@@ -105,7 +112,10 @@ namespace MMX_Web_Tools.Utils
                         GridSelectionBack = Color.FromArgb(70, 155, 70), // brighter selection
                         GridSelectionFore = Color.Black,
                         GridVariantRowBack = Color.FromArgb(18, 58, 18), // more visible green tint
-                        LogFont = new Font("Consolas", 9f)
+                        LogFont = new Font("Consolas", 9f),
+                        ProgressBack = Color.FromArgb(24, 26, 28),
+                        ProgressFore = Color.FromArgb(0, 200, 0),
+                        ProgressBorder = Color.FromArgb(50, 60, 50)
                     };
                 case AppTheme.Light:
                 default:
@@ -130,7 +140,10 @@ namespace MMX_Web_Tools.Utils
                         GridSelectionBack = SystemColors.Highlight,
                         GridSelectionFore = SystemColors.HighlightText,
                         GridVariantRowBack = Color.FromArgb(255, 250, 235),
-                        LogFont = SystemFonts.DefaultFont
+                        LogFont = SystemFonts.DefaultFont,
+                        ProgressBack = Color.FromArgb(240, 240, 240),
+                        ProgressFore = Color.FromArgb(0, 120, 215),
+                        ProgressBorder = Color.FromArgb(200, 200, 200)
                     };
             }
         }
@@ -203,6 +216,12 @@ namespace MMX_Web_Tools.Utils
             {
                 nud.BackColor = p.InputBack;
                 nud.ForeColor = p.InputFore;
+            }
+            else if (c is ProgressBar pb)
+            {
+                // Let custom themed progressbars paint themselves; still set base colors
+                pb.BackColor = p.ProgressBack;
+                pb.ForeColor = p.ProgressFore;
             }
             else if (c is CheckBox || c is RadioButton || c is Label)
             {
