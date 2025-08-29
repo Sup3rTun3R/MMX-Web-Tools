@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<item>
+  <!-- Must match Application.ProductVersion (Assembly/File version) -->
+  <version>1.0.0.0</version>
+
+  <!-- Direct link to your packaged app asset in the GitHub release -->
+  <!-- Replace the filename if your asset name differs (e.g., MMX-Web-Tools.zip) -->
+  <url>https://github.com/Sup3rTun3R/MMX-Web-Tools/releases/latest/download/MMXWebTools.zip</url>
+
+  <!-- Optional: link to release notes/changelog page -->
+  <changelog>https://github.com/Sup3rTun3R/MMX-Web-Tools/releases/latest</changelog>
+
+  <!-- If true, update dialog won’t allow skipping -->
+  <mandatory>false</mandatory>
+
+  <!-- Optional checksum; if used, set the correct algorithm and value
+       <checksum algorithm="SHA256">PUT_BASE64_OR_HEX_HASH_HERE</checksum>
+  -->
+</item>

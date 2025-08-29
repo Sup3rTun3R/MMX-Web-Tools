@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using MMX_Web_Tools.Controls;
+using AutoUpdaterDotNET;
 
 namespace MMX_Web_Tools
 {
@@ -40,6 +41,9 @@ namespace MMX_Web_Tools
         // themed status progress bar host
         private ThemedProgressBar _statusProgressBar;
         private ToolStripControlHost _statusProgressHost;
+
+        // Central place to configure the update manifest URL
+        private const string UpdateXmlUrl = "https://github.com/Sup3rTun3R/MMX-Web-Tools/releases/latest/download/update.xml"; // TODO: set your real URL
 
         public Form1()
         {
@@ -892,6 +896,26 @@ namespace MMX_Web_Tools
                 return dataGridViewProducts.SelectedRows[0].DataBoundItem as Product;
             }
             return null;
+        }
+
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Optional: brand the updater window
+                AutoUpdater.AppTitle = Text;
+                AutoUpdater.ReportErrors = true;
+                AutoUpdater.Synchronous = false;
+                AutoUpdater.ShowSkipButton = false;
+                AutoUpdater.RunUpdateAsAdmin = false;
+
+                // If you serve over HTTPS with a self-signed cert, you may need additional config.
+                AutoUpdater.Start(UpdateXmlUrl);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Update Check", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

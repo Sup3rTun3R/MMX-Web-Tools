@@ -38,6 +38,7 @@
             this.lightThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.darkGrayThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.matrixThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMain = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonOpen = new System.Windows.Forms.ToolStripButton();
@@ -156,7 +157,8 @@
             this.findToolStripMenuItem,
             this.focusSearchToolStripMenuItem,
             this.saleTemplatesToolStripMenuItem,
-            this.themeToolStripMenuItem});
+            this.themeToolStripMenuItem,
+            this.checkForUpdatesToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -167,7 +169,7 @@
             this.filterResultsEditToolStripMenuItem,
             this.navigateEditToolStripMenuItem});
             this.searchModeToolStripMenuItem.Name = "searchModeToolStripMenuItem";
-            this.searchModeToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.searchModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.searchModeToolStripMenuItem.Text = "Search Mode";
             // 
             // filterResultsEditToolStripMenuItem
@@ -192,21 +194,21 @@
             // 
             this.detailedLogToolStripMenuItem.CheckOnClick = true;
             this.detailedLogToolStripMenuItem.Name = "detailedLogToolStripMenuItem";
-            this.detailedLogToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.detailedLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.detailedLogToolStripMenuItem.Text = "Detailed Log";
             this.detailedLogToolStripMenuItem.CheckedChanged += new System.EventHandler(this.detailedLogToolStripMenuItem_CheckedChanged);
             // 
             // findToolStripMenuItem
             // 
             this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.findToolStripMenuItem.Text = "Find";
             this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
             // 
             // focusSearchToolStripMenuItem
             // 
             this.focusSearchToolStripMenuItem.Name = "focusSearchToolStripMenuItem";
-            this.focusSearchToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.focusSearchToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.focusSearchToolStripMenuItem.Text = "Focus Search";
             this.focusSearchToolStripMenuItem.Click += new System.EventHandler(this.focusSearchToolStripMenuItem_Click);
             // 
@@ -216,7 +218,7 @@
             this.noneTemplateToolStripMenuItem,
             this.manageTemplatesToolStripMenuItem});
             this.saleTemplatesToolStripMenuItem.Name = "saleTemplatesToolStripMenuItem";
-            this.saleTemplatesToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.saleTemplatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saleTemplatesToolStripMenuItem.Text = "Sale Templates";
             // 
             // noneTemplateToolStripMenuItem
@@ -240,7 +242,7 @@
             this.darkGrayThemeToolStripMenuItem,
             this.matrixThemeToolStripMenuItem});
             this.themeToolStripMenuItem.Name = "themeToolStripMenuItem";
-            this.themeToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.themeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.themeToolStripMenuItem.Text = "Theme";
             // 
             // lightThemeToolStripMenuItem
@@ -263,6 +265,13 @@
             this.matrixThemeToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.matrixThemeToolStripMenuItem.Text = "Matrix Dark";
             this.matrixThemeToolStripMenuItem.Click += new System.EventHandler(this.matrixThemeToolStripMenuItem_Click);
+            // 
+            // checkForUpdatesToolStripMenuItem
+            // 
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates...";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -915,6 +924,7 @@
         private System.Windows.Forms.ToolStripMenuItem lightThemeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem darkGrayThemeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem matrixThemeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStripMain;
         private System.Windows.Forms.ToolStripButton toolStripButtonOpen;
